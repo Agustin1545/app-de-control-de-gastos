@@ -255,8 +255,8 @@ function showSheet(html){
 function closeSheet(instant){
   const root=el("modalRoot"); const sh=root.querySelector(".sheet"), sc=root.querySelector(".scrim");
   if(!sh){ return; }
-  draft=null; catDraft=null; recDraft=null;
   if(instant){ root.innerHTML=""; return; }
+  draft=null; catDraft=null; recDraft=null;
   sh.classList.remove("show"); sc.classList.remove("show");
   setTimeout(()=>root.innerHTML="",260);
 }
@@ -274,7 +274,7 @@ document.addEventListener("click",e=>{
   if(t.hasAttribute("data-close")){ closeSheet(); return; }
 
   if(t.dataset.dtype){ draft.type=t.dataset.dtype; renderTxSheet(); return; }
-  if(t.dataset.dcat){ draft.categoryId=t.dataset.dcat; renderTxSheet(); return; }
+  if(t.dataset.dcat){ if(draft){ draft.categoryId=t.dataset.dcat; } document.querySelectorAll('.catpick[data-dcat]').forEach(b=>b.classList.toggle('on', b.dataset.dcat===t.dataset.dcat)); return; }
   if(t.dataset.rtype){ recDraft.type=t.dataset.rtype; recDraft.amount=parseAmt(el("rAmt")?.value)||recDraft.amount; renderRecEdit(); return; }
   if(t.dataset.emoji){ catDraft.icon=t.dataset.emoji; document.querySelectorAll("#cEmoji button").forEach(b=>b.classList.toggle("on",b.dataset.emoji===catDraft.icon)); return; }
   if(t.dataset.color){ catDraft.color=t.dataset.color; document.querySelectorAll("#cColor button").forEach(b=>b.classList.toggle("on",b.dataset.color===catDraft.color)); return; }
